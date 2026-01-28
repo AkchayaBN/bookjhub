@@ -10,6 +10,8 @@ import Books from "./pages/Books";
 import BookDetail from "./pages/BookDetail";
 import Categories from "./pages/Categories";
 import Wishlist from "./pages/Wishlist";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 import Checkout from "./pages/Checkout";
 import NotFound from "./pages/NotFound";
 
@@ -30,6 +32,8 @@ const App = () => (
               <Route path="/categories" element={<Categories />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
