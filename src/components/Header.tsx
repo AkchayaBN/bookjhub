@@ -113,14 +113,11 @@ const Header: React.FC = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48 bg-card">
                 <DropdownMenuItem asChild>
-                  <Link to="/login" className="cursor-pointer">Sign In</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/register" className="cursor-pointer">Create Account</Link>
+                  <Link to="/my-account" className="cursor-pointer">My Account</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link to="/orders" className="cursor-pointer">My Orders</Link>
+                  <Link to="/order-tracking" className="cursor-pointer">My Orders</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link to="/wishlist" className="cursor-pointer">Wishlist</Link>
