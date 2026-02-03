@@ -39,16 +39,11 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="font-display font-semibold text-lg mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              {['Home', 'Books', 'Categories', 'Bestsellers', 'New Arrivals'].map((item) => (
-                <li key={item}>
-                  <Link
-                    to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
+              <li><Link to="/" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Home</Link></li>
+              <li><Link to="/books" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Books</Link></li>
+              <li><Link to="/categories" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Categories</Link></li>
+              <li><Link to="/bestsellers" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Bestsellers</Link></li>
+              <li><Link to="/new-arrivals" className="text-muted-foreground hover:text-foreground transition-colors text-sm">New Arrivals</Link></li>
             </ul>
           </div>
 
@@ -56,16 +51,11 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="font-display font-semibold text-lg mb-4">Customer Service</h3>
             <ul className="space-y-2">
-              {['My Account', 'Order Tracking', 'Shipping Info', 'Returns & Refunds', 'FAQs'].map((item) => (
-                <li key={item}>
-                  <Link
-                    to="#"
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
+              <li><Link to="/my-account" className="text-muted-foreground hover:text-foreground transition-colors text-sm">My Account</Link></li>
+              <li><Link to="/order-tracking" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Order Tracking</Link></li>
+              <li><Link to="/shipping-info" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Shipping Info</Link></li>
+              <li><Link to="/returns-refunds" className="text-muted-foreground hover:text-foreground transition-colors text-sm">Returns & Refunds</Link></li>
+              <li><Link to="/faqs" className="text-muted-foreground hover:text-foreground transition-colors text-sm">FAQs</Link></li>
             </ul>
           </div>
 
@@ -97,13 +87,13 @@ const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
           <p>© {currentYear} BookHub. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link to="#" className="hover:text-foreground transition-colors">
+            <Link to="/privacy-policy" className="hover:text-foreground transition-colors">
               Privacy Policy
             </Link>
-            <Link to="#" className="hover:text-foreground transition-colors">
+            <Link to="/terms-of-service" className="hover:text-foreground transition-colors">
               Terms of Service
             </Link>
-            <Link to="#" className="hover:text-foreground transition-colors">
+            <Link to="/cookie-policy" className="hover:text-foreground transition-colors">
               Cookie Policy
             </Link>
           </div>
