@@ -1,12 +1,28 @@
 import React from 'react';
+import { Navigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { User, Package, MapPin, CreditCard, Heart, Settings } from 'lucide-react';
+import { User, Package, MapPin, CreditCard, Heart, Settings, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 const MyAccount: React.FC = () => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
   const accountSections = [
     { icon: User, title: 'Profile Information', description: 'Update your name, email, and password', link: '#' },
     { icon: Package, title: 'Order History', description: 'View and track your orders', link: '/order-tracking' },
@@ -26,7 +42,7 @@ const MyAccount: React.FC = () => {
             Welcome back! Manage your account settings and preferences.
           </p>
 
-          {/* Demo User Info */}
+          {/* User Info */}
           <Card className="mb-8">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
@@ -34,9 +50,11 @@ const MyAccount: React.FC = () => {
                   <User className="w-8 h-8 text-primary" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-semibold">John Doe</h2>
-                  <p className="text-muted-foreground">john.doe@example.com</p>
-                  <p className="text-sm text-muted-foreground">Member since January 2024</p>
+                  <h2 className="text-xl font-semibold">{user.user_metadata?.display_name || user.email?.split('@')[0]}</h2>
+                  <p className="text-muted-foreground">{user.email}</p>
+                  <p className="text-sm text-muted-foreground">
+                    Member since {new Date(user.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                  </p>
                 </div>
               </div>
             </CardContent>
