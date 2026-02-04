@@ -14,7 +14,220 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      books: {
+        Row: {
+          author: string
+          category: string
+          cover_image: string | null
+          created_at: string
+          description: string | null
+          genre: string | null
+          id: string
+          in_stock: boolean | null
+          is_bestseller: boolean | null
+          is_featured: boolean | null
+          is_new_arrival: boolean | null
+          isbn: string | null
+          language: string | null
+          original_price: number | null
+          pages: number | null
+          price: number
+          publication_year: number | null
+          rating: number | null
+          review_count: number | null
+          stock_quantity: number | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author: string
+          category: string
+          cover_image?: string | null
+          created_at?: string
+          description?: string | null
+          genre?: string | null
+          id?: string
+          in_stock?: boolean | null
+          is_bestseller?: boolean | null
+          is_featured?: boolean | null
+          is_new_arrival?: boolean | null
+          isbn?: string | null
+          language?: string | null
+          original_price?: number | null
+          pages?: number | null
+          price: number
+          publication_year?: number | null
+          rating?: number | null
+          review_count?: number | null
+          stock_quantity?: number | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          category?: string
+          cover_image?: string | null
+          created_at?: string
+          description?: string | null
+          genre?: string | null
+          id?: string
+          in_stock?: boolean | null
+          is_bestseller?: boolean | null
+          is_featured?: boolean | null
+          is_new_arrival?: boolean | null
+          isbn?: string | null
+          language?: string | null
+          original_price?: number | null
+          pages?: number | null
+          price?: number
+          publication_year?: number | null
+          rating?: number | null
+          review_count?: number | null
+          stock_quantity?: number | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      order_items: {
+        Row: {
+          book_author: string
+          book_id: string
+          book_price: number
+          book_title: string
+          created_at: string
+          id: string
+          order_id: string
+          quantity: number
+        }
+        Insert: {
+          book_author: string
+          book_id: string
+          book_price: number
+          book_title: string
+          created_at?: string
+          id?: string
+          order_id: string
+          quantity?: number
+        }
+        Update: {
+          book_author?: string
+          book_id?: string
+          book_price?: number
+          book_title?: string
+          created_at?: string
+          id?: string
+          order_id?: string
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          billing_address: Json | null
+          created_at: string
+          id: string
+          order_number: string
+          shipping_address: Json | null
+          status: string
+          total_amount: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          billing_address?: Json | null
+          created_at?: string
+          id?: string
+          order_number: string
+          shipping_address?: Json | null
+          status?: string
+          total_amount: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          billing_address?: Json | null
+          created_at?: string
+          id?: string
+          order_number?: string
+          shipping_address?: Json | null
+          status?: string
+          total_amount?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      wishlists: {
+        Row: {
+          book_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          book_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          book_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wishlists_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
