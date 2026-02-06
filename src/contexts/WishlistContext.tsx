@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Book } from '@/data/books';
+import { Book } from '@/types/book';
 import { toast } from '@/hooks/use-toast';
 
 interface WishlistContextType {

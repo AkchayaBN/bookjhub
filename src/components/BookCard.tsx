@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Star, Heart, ShoppingCart } from 'lucide-react';
-import { Book } from '@/data/books';
+import { Book } from '@/types/book';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/contexts/CartContext';

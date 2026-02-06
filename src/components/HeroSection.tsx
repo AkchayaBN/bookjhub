@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { getFeaturedBooks } from '@/data/books';
+import { useFeaturedBooks } from '@/hooks/useBooks';
 
 const HeroSection: React.FC = () => {
-  const featuredBooks = getFeaturedBooks().slice(0, 3);
+  const { data: featuredBooks = [] } = useFeaturedBooks();
+  const displayedBooks = featuredBooks.slice(0, 3);
 
   return (
     <section className="relative overflow-hidden bg-hero-gradient text-primary-foreground">
@@ -77,7 +78,7 @@ const HeroSection: React.FC = () => {
           {/* Right content - Featured books */}
           <div className="relative hidden lg:block">
             <div className="relative w-full h-[500px]">
-              {featuredBooks.map((book, index) => (
+              {displayedBooks.map((book, index) => (
                 <Link
                   key={book.id}
                   to={`/book/${book.id}`}
@@ -86,7 +87,7 @@ const HeroSection: React.FC = () => {
                     left: `${index * 25}%`,
                     top: `${index * 10}%`,
                     transform: `rotate(${(index - 1) * 5}deg)`,
-                    zIndex: featuredBooks.length - index,
+                    zIndex: displayedBooks.length - index,
                   }}
                 >
                   <div className="group relative">

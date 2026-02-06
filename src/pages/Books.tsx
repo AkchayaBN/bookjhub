@@ -1,11 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Grid, List, SlidersHorizontal, X } from 'lucide-react';
+import { Grid, List, SlidersHorizontal, X, Loader2 } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BookCard from '@/components/BookCard';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
@@ -24,7 +23,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { books, categories, searchBooks } from '@/data/books';
+import { categories } from '@/types/book';
+import { useBooks } from '@/hooks/useBooks';
 
 const Books: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -34,17 +34,23 @@ const Books: React.FC = () => {
     searchParams.get('category') ? [searchParams.get('category')!] : []
   );
   const [sortBy, setSortBy] = useState('featured');
-  const [showFilters, setShowFilters] = useState(false);
 
   const searchQuery = searchParams.get('search') || '';
   const filterType = searchParams.get('filter') || '';
 
+  const { data: allBooks = [], isLoading } = useBooks();
+
   const filteredBooks = useMemo(() => {
-    let result = [...books];
+    let result = [...allBooks];
 
     // Search filter
     if (searchQuery) {
-      result = searchBooks(searchQuery);
+      const query = searchQuery.toLowerCase();
+      result = result.filter(book => 
+        book.title.toLowerCase().includes(query) ||
+        book.author.toLowerCase().includes(query) ||
+        book.isbn.includes(searchQuery)
+      );
     }
 
     // Category filter
@@ -87,7 +93,7 @@ const Books: React.FC = () => {
     }
 
     return result;
-  }, [searchQuery, selectedCategories, priceRange, sortBy, filterType]);
+  }, [allBooks, searchQuery, selectedCategories, priceRange, sortBy, filterType]);
 
   const toggleCategory = (categoryId: string) => {
     setSelectedCategories(prev =>
@@ -215,7 +221,7 @@ const Books: React.FC = () => {
                 : 'All Books'}
             </h1>
             <p className="text-muted-foreground">
-              {filteredBooks.length} {filteredBooks.length === 1 ? 'book' : 'books'} found
+              {isLoading ? 'Loading...' : `${filteredBooks.length} ${filteredBooks.length === 1 ? 'book' : 'books'} found`}
             </p>
           </div>
 
@@ -312,7 +318,11 @@ const Books: React.FC = () => {
               </div>
 
               {/* Books Grid/List */}
-              {filteredBooks.length > 0 ? (
+              {isLoading ? (
+                <div className="flex justify-center py-16">
+                  <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                </div>
+              ) : filteredBooks.length > 0 ? (
                 <div
                   className={
                     viewMode === 'grid'

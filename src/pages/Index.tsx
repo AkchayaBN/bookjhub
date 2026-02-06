@@ -1,17 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, TrendingUp, Sparkles, Award } from 'lucide-react';
+import { ArrowRight, TrendingUp, Sparkles, Award, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/HeroSection';
 import BookCard from '@/components/BookCard';
 import CategoryCard from '@/components/CategoryCard';
-import { getBestsellers, getNewArrivals, categories, books, getBooksByCategory } from '@/data/books';
+import { categories } from '@/types/book';
+import { useBooks, useBestsellers, useNewArrivals, useCategoryBookCounts } from '@/hooks/useBooks';
 
 const Index: React.FC = () => {
-  const bestsellers = getBestsellers();
-  const newArrivals = getNewArrivals();
+  const { data: allBooks = [], isLoading: booksLoading } = useBooks();
+  const { data: bestsellers = [], isLoading: bestsellersLoading } = useBestsellers();
+  const { data: newArrivals = [], isLoading: newArrivalsLoading } = useNewArrivals();
+  const { data: categoryCounts = {} } = useCategoryBookCounts();
+
+  const isLoading = booksLoading || bestsellersLoading || newArrivalsLoading;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -44,7 +49,7 @@ const Index: React.FC = () => {
                   id={category.id}
                   name={category.name}
                   icon={category.icon}
-                  bookCount={getBooksByCategory(category.id).length}
+                  bookCount={categoryCounts[category.id] || 0}
                 />
               ))}
             </div>
@@ -65,28 +70,34 @@ const Index: React.FC = () => {
                 </div>
               </div>
               <Button variant="outline" asChild className="hidden md:flex">
-                <Link to="/books?filter=bestseller">
+                <Link to="/bestsellers">
                   See All
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
               </Button>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-              {bestsellers.slice(0, 5).map((book, index) => (
-                <div 
-                  key={book.id} 
-                  className="animate-fade-in-up"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <BookCard book={book} />
-                </div>
-              ))}
-            </div>
+            {bestsellersLoading ? (
+              <div className="flex justify-center py-12">
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                {bestsellers.slice(0, 5).map((book, index) => (
+                  <div 
+                    key={book.id} 
+                    className="animate-fade-in-up"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <BookCard book={book} />
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div className="mt-8 text-center md:hidden">
               <Button variant="outline" asChild>
-                <Link to="/books?filter=bestseller">
+                <Link to="/bestsellers">
                   View All Bestsellers
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
@@ -110,7 +121,7 @@ const Index: React.FC = () => {
                   </div>
                 </div>
                 <Button variant="outline" asChild className="hidden md:flex">
-                  <Link to="/books?filter=new">
+                  <Link to="/new-arrivals">
                     Explore New Books
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
@@ -152,7 +163,7 @@ const Index: React.FC = () => {
                   asChild
                   className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
                 >
-                  <Link to="/books?collection=award-winners">
+                  <Link to="/books">
                     Explore Collection
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
@@ -176,17 +187,23 @@ const Index: React.FC = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-              {books.slice(0, 12).map((book, index) => (
-                <div 
-                  key={book.id} 
-                  className="animate-fade-in-up"
-                  style={{ animationDelay: `${index * 50}ms` }}
-                >
-                  <BookCard book={book} />
-                </div>
-              ))}
-            </div>
+            {booksLoading ? (
+              <div className="flex justify-center py-12">
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+                {allBooks.slice(0, 12).map((book, index) => (
+                  <div 
+                    key={book.id} 
+                    className="animate-fade-in-up"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <BookCard book={book} />
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div className="mt-12 text-center">
               <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
