@@ -2,10 +2,11 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BookCard from '@/components/BookCard';
-import { getBestsellers } from '@/data/books';
+import { useBestsellers } from '@/hooks/useBooks';
+import { Loader2 } from 'lucide-react';
 
 const Bestsellers: React.FC = () => {
-  const bestsellers = getBestsellers();
+  const { data: bestsellers = [], isLoading } = useBestsellers();
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -17,11 +18,17 @@ const Bestsellers: React.FC = () => {
             Discover our most popular books loved by readers worldwide.
           </p>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {bestsellers.map((book) => (
-              <BookCard key={book.id} book={book} />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="flex justify-center py-16">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+              {bestsellers.map((book) => (
+                <BookCard key={book.id} book={book} />
+              ))}
+            </div>
+          )}
         </div>
       </main>
       <Footer />

@@ -2,10 +2,11 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BookCard from '@/components/BookCard';
-import { getNewArrivals } from '@/data/books';
+import { useNewArrivals } from '@/hooks/useBooks';
+import { Loader2 } from 'lucide-react';
 
 const NewArrivals: React.FC = () => {
-  const newArrivals = getNewArrivals();
+  const { data: newArrivals = [], isLoading } = useNewArrivals();
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -17,11 +18,21 @@ const NewArrivals: React.FC = () => {
             Fresh off the press! Check out the latest additions to our collection.
           </p>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {newArrivals.map((book) => (
-              <BookCard key={book.id} book={book} />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="flex justify-center py-16">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : newArrivals.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+              {newArrivals.map((book) => (
+                <BookCard key={book.id} book={book} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted-foreground py-12">
+              No new arrivals at the moment. Check back soon!
+            </p>
+          )}
         </div>
       </main>
       <Footer />

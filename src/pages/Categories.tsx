@@ -2,9 +2,12 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CategoryCard from '@/components/CategoryCard';
-import { categories, getBooksByCategory } from '@/data/books';
+import { categories } from '@/types/book';
+import { useCategoryBookCounts } from '@/hooks/useBooks';
 
 const Categories: React.FC = () => {
+  const { data: categoryCounts = {} } = useCategoryBookCounts();
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -31,7 +34,7 @@ const Categories: React.FC = () => {
                   id={category.id}
                   name={category.name}
                   icon={category.icon}
-                  bookCount={getBooksByCategory(category.id).length}
+                  bookCount={categoryCounts[category.id] || 0}
                 />
               </div>
             ))}

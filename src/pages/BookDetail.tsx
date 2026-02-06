@@ -12,6 +12,7 @@ import {
   Shield,
   RotateCcw,
   ThumbsUp,
+  Loader2,
 } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -21,7 +22,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { getBookById, getBooksByCategory, getReviewsByBookId, Book } from '@/data/books';
+import { useBook, useBooksByCategory } from '@/hooks/useBooks';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { cn } from '@/lib/utils';
@@ -33,8 +34,22 @@ const BookDetail: React.FC = () => {
   const { addToCart, isInCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
-  const book = getBookById(id || '');
-  const reviews = getReviewsByBookId(id || '');
+  const { data: book, isLoading } = useBook(id);
+  const { data: relatedBooksAll = [] } = useBooksByCategory(book?.category || '');
+
+  const relatedBooks = relatedBooksAll.filter(b => b.id !== book?.id).slice(0, 4);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!book) {
     return (
@@ -52,10 +67,6 @@ const BookDetail: React.FC = () => {
       </div>
     );
   }
-
-  const relatedBooks = getBooksByCategory(book.category)
-    .filter(b => b.id !== book.id)
-    .slice(0, 4);
 
   const discount = book.originalPrice
     ? Math.round(((book.originalPrice - book.price) / book.originalPrice) * 100)
@@ -284,40 +295,9 @@ const BookDetail: React.FC = () => {
             </TabsContent>
 
             <TabsContent value="reviews" className="pt-6">
-              {reviews.length > 0 ? (
-                <div className="space-y-6">
-                  {reviews.map(review => (
-                    <div key={review.id} className="p-6 rounded-lg bg-muted/50">
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="font-semibold">{review.userName}</span>
-                            {review.verified && (
-                              <Badge variant="secondary" className="text-xs">
-                                <Check className="w-3 h-3 mr-1" />
-                                Verified Purchase
-                              </Badge>
-                            )}
-                          </div>
-                          <StarRating rating={review.rating} size="sm" />
-                        </div>
-                        <span className="text-sm text-muted-foreground">{review.date}</span>
-                      </div>
-                      <p className="text-muted-foreground">{review.text}</p>
-                      <div className="flex items-center gap-4 mt-4">
-                        <Button variant="ghost" size="sm" className="text-muted-foreground">
-                          <ThumbsUp className="w-4 h-4 mr-2" />
-                          Helpful ({review.helpful})
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-muted-foreground text-center py-8">
-                  No reviews yet. Be the first to review this book!
-                </p>
-              )}
+              <p className="text-muted-foreground text-center py-8">
+                No reviews yet. Be the first to review this book!
+              </p>
             </TabsContent>
           </Tabs>
 
@@ -326,8 +306,8 @@ const BookDetail: React.FC = () => {
             <section>
               <h2 className="text-2xl font-display font-bold mb-6">You May Also Like</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {relatedBooks.map(book => (
-                  <BookCard key={book.id} book={book} />
+                {relatedBooks.map(relatedBook => (
+                  <BookCard key={relatedBook.id} book={relatedBook} />
                 ))}
               </div>
             </section>
