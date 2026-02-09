@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useFeaturedBooks } from '@/hooks/useBooks';
+import heroImage from '@/assets/hero-books.jpg';
 
 const HeroSection: React.FC = () => {
   const { data: featuredBooks = [] } = useFeaturedBooks();
@@ -75,32 +76,37 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right content - Featured books */}
+          {/* Right content - Hero image + Featured books */}
           <div className="relative hidden lg:block">
             <div className="relative w-full h-[500px]">
-              {displayedBooks.map((book, index) => (
+              {/* Hero image */}
+              <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl">
+                <img
+                  src={heroImage}
+                  alt="A cozy bookstore with stacked books and warm golden lighting"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
+              </div>
+              {/* Floating book cards on top of image */}
+              {displayedBooks.slice(0, 2).map((book, index) => (
                 <Link
                   key={book.id}
                   to={`/book/${book.id}`}
                   className="absolute transition-all duration-500 hover:z-10"
                   style={{
-                    left: `${index * 25}%`,
-                    top: `${index * 10}%`,
-                    transform: `rotate(${(index - 1) * 5}deg)`,
-                    zIndex: displayedBooks.length - index,
+                    right: index === 0 ? '10%' : '40%',
+                    bottom: index === 0 ? '8%' : '12%',
+                    zIndex: 2 - index,
                   }}
                 >
                   <div className="group relative">
-                    <div className="w-48 h-72 rounded-lg overflow-hidden shadow-2xl ring-4 ring-primary-foreground/10 group-hover:ring-gold/50 transition-all duration-300 group-hover:scale-105 group-hover:-rotate-2">
+                    <div className="w-32 h-48 rounded-lg overflow-hidden shadow-2xl ring-2 ring-primary-foreground/20 group-hover:ring-gold/50 transition-all duration-300 group-hover:scale-110 group-hover:-rotate-2">
                       <img
                         src={book.coverImage}
                         alt={book.title}
                         className="w-full h-full object-cover"
                       />
-                    </div>
-                    <div className="absolute -bottom-4 left-4 right-4 bg-card text-foreground p-3 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="font-display font-semibold text-sm truncate">{book.title}</p>
-                      <p className="text-xs text-muted-foreground">{book.author}</p>
                     </div>
                   </div>
                 </Link>
