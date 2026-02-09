@@ -6,56 +6,56 @@
 
 @layer base {
   :root {
-    /* Warm, literary color palette */
-    --background: 40 33% 97%;
-    --foreground: 20 20% 15%;
+    /* Vibrant literary color palette */
+    --background: 40 40% 97%;
+    --foreground: 20 25% 12%;
 
-    --card: 40 30% 99%;
-    --card-foreground: 20 20% 15%;
+    --card: 40 35% 99%;
+    --card-foreground: 20 25% 12%;
 
-    --popover: 40 30% 99%;
-    --popover-foreground: 20 20% 15%;
+    --popover: 40 35% 99%;
+    --popover-foreground: 20 25% 12%;
 
-    /* Rich burgundy primary */
-    --primary: 350 65% 35%;
-    --primary-foreground: 40 30% 98%;
+    /* Rich vibrant burgundy primary */
+    --primary: 345 75% 38%;
+    --primary-foreground: 40 40% 98%;
 
-    /* Soft beige secondary */
-    --secondary: 35 25% 90%;
-    --secondary-foreground: 20 20% 20%;
+    /* Warm sand secondary */
+    --secondary: 35 35% 90%;
+    --secondary-foreground: 20 25% 18%;
 
-    --muted: 35 20% 92%;
-    --muted-foreground: 20 10% 45%;
+    --muted: 35 25% 92%;
+    --muted-foreground: 20 12% 42%;
 
-    /* Forest green accent */
-    --accent: 150 35% 30%;
-    --accent-foreground: 40 30% 98%;
+    /* Vivid emerald accent */
+    --accent: 155 50% 32%;
+    --accent-foreground: 40 40% 98%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 80% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 35 20% 85%;
-    --input: 35 20% 85%;
-    --ring: 350 65% 35%;
+    --border: 35 25% 82%;
+    --input: 35 25% 82%;
+    --ring: 345 75% 38%;
 
     --radius: 0.5rem;
 
     /* Custom design tokens */
-    --gold: 45 80% 50%;
-    --gold-light: 45 70% 65%;
-    --cream: 40 33% 97%;
-    --cream-dark: 35 25% 90%;
-    --burgundy: 350 65% 35%;
-    --burgundy-light: 350 55% 45%;
-    --burgundy-dark: 350 70% 25%;
-    --forest: 150 35% 30%;
-    --forest-light: 150 30% 40%;
-    --charcoal: 20 20% 15%;
+    --gold: 42 90% 52%;
+    --gold-light: 42 80% 62%;
+    --cream: 40 40% 97%;
+    --cream-dark: 35 35% 88%;
+    --burgundy: 345 75% 38%;
+    --burgundy-light: 345 65% 48%;
+    --burgundy-dark: 345 80% 28%;
+    --forest: 155 50% 32%;
+    --forest-light: 155 45% 42%;
+    --charcoal: 20 25% 12%;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(350 65% 35%) 0%, hsl(350 70% 25%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(45 80% 50%) 0%, hsl(35 75% 45%) 100%);
-    --gradient-cream: linear-gradient(180deg, hsl(40 33% 97%) 0%, hsl(35 25% 92%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(345 75% 38%) 0%, hsl(345 80% 28%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(42 90% 52%) 0%, hsl(35 80% 45%) 100%);
+    --gradient-cream: linear-gradient(180deg, hsl(40 40% 97%) 0%, hsl(35 35% 92%) 100%);
 
     /* Shadows */
     --shadow-book: 0 10px 40px -10px hsl(20 20% 15% / 0.15);
