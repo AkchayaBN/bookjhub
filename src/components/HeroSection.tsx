@@ -77,18 +77,18 @@ const HeroSection: React.FC = () => {
           </div>
 
           {/* Right content - Hero image + Featured books */}
-          <div className="relative hidden lg:block">
-            <div className="relative w-full h-[500px]">
-              {/* Hero image */}
-              <div className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src={heroImage}
-                  alt="A cozy bookstore with stacked books and warm golden lighting"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
-              </div>
-              {/* Floating book cards on top of image */}
+          <div className="relative">
+            {/* Mobile/tablet: smaller image */}
+            <div className="relative w-full h-[250px] sm:h-[300px] lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+              <img
+                src={heroImage}
+                alt="A cozy bookstore with stacked books and warm golden lighting"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
+            </div>
+            {/* Floating book cards - desktop only */}
+            <div className="hidden lg:block">
               {displayedBooks.slice(0, 2).map((book, index) => (
                 <Link
                   key={book.id}
