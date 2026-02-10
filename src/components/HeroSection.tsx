@@ -2,11 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useFeaturedBooks } from '@/hooks/useBooks';
+import { useFeaturedBooks, useBookCount } from '@/hooks/useBooks';
 import heroImage from '@/assets/hero-books.jpg';
 
 const HeroSection: React.FC = () => {
   const { data: featuredBooks = [] } = useFeaturedBooks();
+  const { data: bookCount = 0 } = useBookCount();
   const displayedBooks = featuredBooks.slice(0, 3);
 
   return (
@@ -23,7 +24,7 @@ const HeroSection: React.FC = () => {
           <div className="space-y-8 animate-fade-in-up">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm">
               <Star className="w-4 h-4 fill-gold text-gold" />
-              <span className="text-sm font-medium">Over 10,000 books available</span>
+              <span className="text-sm font-medium">{bookCount.toLocaleString()} books available</span>
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight">
@@ -65,7 +66,7 @@ const HeroSection: React.FC = () => {
                 <p className="text-sm text-primary-foreground/70">Happy Readers</p>
               </div>
               <div>
-                <p className="text-3xl font-bold font-display">10K+</p>
+                <p className="text-3xl font-bold font-display">{bookCount.toLocaleString()}</p>
                 <p className="text-sm text-primary-foreground/70">Books Available</p>
               </div>
               <div>
