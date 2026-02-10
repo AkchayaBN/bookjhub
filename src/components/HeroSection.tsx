@@ -31,7 +31,7 @@ const HeroSection: React.FC = () => {
               <span className="block text-gradient-gold">Great Read</span>
             </h1>
 
-            <p className="text-lg text-primary-foreground/80 max-w-xl">
+            <p className="text-lg text-primary-foreground/80 max-w-xl text-justify">
               Explore our curated collection of bestsellers, new releases, and timeless classics. 
               Find the perfect book for every mood and moment.
             </p>
