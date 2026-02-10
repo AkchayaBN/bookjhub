@@ -49,9 +49,8 @@ const HeroSection: React.FC = () => {
               </Button>
               <Button 
                 asChild 
-                variant="outline" 
                 size="lg"
-                className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/20 font-semibold"
+                className="bg-primary-foreground/20 border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/30 font-semibold backdrop-blur-sm"
               >
                 <Link to="/categories">
                   Explore Categories
