@@ -156,3 +156,18 @@ export const useCategoryBookCounts = () => {
     },
   });
 };
+
+// Get total book count
+export const useBookCount = () => {
+  return useQuery({
+    queryKey: ['books', 'count'],
+    queryFn: async (): Promise<number> => {
+      const { count, error } = await supabase
+        .from('books')
+        .select('*', { count: 'exact', head: true });
+      
+      if (error) throw error;
+      return count || 0;
+    },
+  });
+};
