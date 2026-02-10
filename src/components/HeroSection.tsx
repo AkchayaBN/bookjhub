@@ -51,7 +51,7 @@ const HeroSection: React.FC = () => {
                 asChild 
                 variant="outline" 
                 size="lg"
-                className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/20 font-semibold"
               >
                 <Link to="/categories">
                   Explore Categories
