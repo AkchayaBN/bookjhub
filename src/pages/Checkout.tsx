@@ -10,6 +10,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
 import { useCart } from '@/contexts/CartContext';
 import { toast } from '@/hooks/use-toast';
+import { formatPrice } from '@/lib/currency';
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
@@ -18,9 +19,9 @@ const Checkout: React.FC = () => {
   const [shippingMethod, setShippingMethod] = useState('standard');
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const shippingCost = shippingMethod === 'express' ? 9.99 : shippingMethod === 'overnight' ? 19.99 : 0;
+  const shippingCost = shippingMethod === 'express' ? 99 : shippingMethod === 'overnight' ? 199 : 0;
   const subtotal = getCartTotal();
-  const tax = subtotal * 0.08;
+  const tax = subtotal * 0.18; // GST 18%
   const total = subtotal + shippingCost + tax;
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,12 +32,10 @@ const Checkout: React.FC = () => {
       return;
     }
 
-    // Mock payment processing
     setIsProcessing(true);
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsProcessing(false);
 
-    // Generate order ID
     const orderId = `BH-${Date.now().toString(36).toUpperCase()}`;
     
     clearCart();
@@ -121,41 +120,41 @@ const Checkout: React.FC = () => {
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
                         <Label htmlFor="firstName">First Name</Label>
-                        <Input id="firstName" required placeholder="John" className="mt-1" />
+                        <Input id="firstName" required placeholder="Rahul" className="mt-1" />
                       </div>
                       <div>
                         <Label htmlFor="lastName">Last Name</Label>
-                        <Input id="lastName" required placeholder="Doe" className="mt-1" />
+                        <Input id="lastName" required placeholder="Sharma" className="mt-1" />
                       </div>
                     </div>
 
                     <div>
                       <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" required placeholder="john@example.com" className="mt-1" />
+                      <Input id="email" type="email" required placeholder="rahul@example.com" className="mt-1" />
                     </div>
 
                     <div>
                       <Label htmlFor="phone">Phone</Label>
-                      <Input id="phone" type="tel" required placeholder="+1 (555) 000-0000" className="mt-1" />
+                      <Input id="phone" type="tel" required placeholder="+91 98765 43210" className="mt-1" />
                     </div>
 
                     <div>
                       <Label htmlFor="address">Street Address</Label>
-                      <Input id="address" required placeholder="123 Main Street" className="mt-1" />
+                      <Input id="address" required placeholder="123 MG Road" className="mt-1" />
                     </div>
 
                     <div className="grid sm:grid-cols-3 gap-4">
                       <div>
                         <Label htmlFor="city">City</Label>
-                        <Input id="city" required placeholder="New York" className="mt-1" />
+                        <Input id="city" required placeholder="Mumbai" className="mt-1" />
                       </div>
                       <div>
                         <Label htmlFor="state">State</Label>
-                        <Input id="state" required placeholder="NY" className="mt-1" />
+                        <Input id="state" required placeholder="Maharashtra" className="mt-1" />
                       </div>
                       <div>
-                        <Label htmlFor="zip">ZIP Code</Label>
-                        <Input id="zip" required placeholder="10001" className="mt-1" />
+                        <Label htmlFor="zip">PIN Code</Label>
+                        <Input id="zip" required placeholder="400001" className="mt-1" />
                       </div>
                     </div>
                   </div>
@@ -169,8 +168,8 @@ const Checkout: React.FC = () => {
                     <RadioGroup value={shippingMethod} onValueChange={setShippingMethod}>
                       {[
                         { id: 'standard', label: 'Standard Shipping', desc: '5-7 business days', price: 'Free' },
-                        { id: 'express', label: 'Express Shipping', desc: '2-3 business days', price: '$9.99' },
-                        { id: 'overnight', label: 'Overnight Shipping', desc: 'Next business day', price: '$19.99' },
+                        { id: 'express', label: 'Express Shipping', desc: '2-3 business days', price: '₹99' },
+                        { id: 'overnight', label: 'Overnight Shipping', desc: 'Next business day', price: '₹199' },
                       ].map((method) => (
                         <Label
                           key={method.id}
@@ -198,7 +197,7 @@ const Checkout: React.FC = () => {
                     
                     <div>
                       <Label htmlFor="cardName">Name on Card</Label>
-                      <Input id="cardName" required placeholder="John Doe" className="mt-1" />
+                      <Input id="cardName" required placeholder="Rahul Sharma" className="mt-1" />
                     </div>
 
                     <div>
@@ -240,7 +239,7 @@ const Checkout: React.FC = () => {
                     className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
                     disabled={isProcessing}
                   >
-                    {isProcessing ? 'Processing...' : step === 3 ? `Pay $${total.toFixed(2)}` : 'Continue'}
+                    {isProcessing ? 'Processing...' : step === 3 ? `Pay ${formatPrice(total)}` : 'Continue'}
                   </Button>
                 </div>
               </form>
@@ -263,7 +262,7 @@ const Checkout: React.FC = () => {
                         <p className="text-sm font-medium truncate">{book.title}</p>
                         <p className="text-xs text-muted-foreground">Qty: {quantity}</p>
                       </div>
-                      <p className="text-sm font-medium">${(book.price * quantity).toFixed(2)}</p>
+                      <p className="text-sm font-medium">{formatPrice(book.price * quantity)}</p>
                     </div>
                   ))}
                 </div>
@@ -273,15 +272,15 @@ const Checkout: React.FC = () => {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>{formatPrice(subtotal)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Shipping</span>
-                    <span>{shippingCost === 0 ? 'Free' : `$${shippingCost.toFixed(2)}`}</span>
+                    <span>{shippingCost === 0 ? 'Free' : formatPrice(shippingCost)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Tax (8%)</span>
-                    <span>${tax.toFixed(2)}</span>
+                    <span className="text-muted-foreground">GST (18%)</span>
+                    <span>{formatPrice(tax)}</span>
                   </div>
                 </div>
 
@@ -289,7 +288,7 @@ const Checkout: React.FC = () => {
 
                 <div className="flex justify-between text-lg font-bold">
                   <span>Total</span>
-                  <span className="text-primary">${total.toFixed(2)}</span>
+                  <span className="text-primary">{formatPrice(total)}</span>
                 </div>
               </div>
             </div>

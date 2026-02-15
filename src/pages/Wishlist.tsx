@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import StarRating from '@/components/StarRating';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useCart } from '@/contexts/CartContext';
+import { formatPrice } from '@/lib/currency';
 
 const Wishlist: React.FC = () => {
   const { items, removeFromWishlist } = useWishlist();
@@ -73,10 +74,10 @@ const Wishlist: React.FC = () => {
                     <StarRating rating={book.rating} size="sm" showValue />
                   </div>
                   <div className="flex items-center gap-3 mt-3">
-                    <span className="text-xl font-bold text-primary">${book.price.toFixed(2)}</span>
+                    <span className="text-xl font-bold text-primary">{formatPrice(book.price)}</span>
                     {book.originalPrice && (
                       <span className="text-muted-foreground line-through">
-                        ${book.originalPrice.toFixed(2)}
+                        {formatPrice(book.originalPrice)}
                       </span>
                     )}
                   </div>
