@@ -18,6 +18,7 @@ import Bestsellers from "./pages/Bestsellers";
 import NewArrivals from "./pages/NewArrivals";
 import MyAccount from "./pages/MyAccount";
 import OrderTracking from "./pages/OrderTracking";
+import MyRentals from "./pages/MyRentals";
 import ShippingInfo from "./pages/ShippingInfo";
 import ReturnsRefunds from "./pages/ReturnsRefunds";
 import FAQs from "./pages/FAQs";
@@ -52,6 +53,7 @@ const App = () => (
                 <Route path="/new-arrivals" element={<NewArrivals />} />
                 <Route path="/my-account" element={<MyAccount />} />
                 <Route path="/order-tracking" element={<OrderTracking />} />
+                <Route path="/my-rentals" element={<MyRentals />} />
                 <Route path="/shipping-info" element={<ShippingInfo />} />
                 <Route path="/returns-refunds" element={<ReturnsRefunds />} />
                 <Route path="/faqs" element={<FAQs />} />

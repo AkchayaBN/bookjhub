@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Heart,
   ShoppingCart,
+  BookOpen,
   Minus,
   Plus,
   Share2,
@@ -26,11 +27,16 @@ import { useBook, useBooksByCategory } from '@/hooks/useBooks';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { cn } from '@/lib/utils';
+import { formatPrice } from '@/lib/currency';
+import SamplePdfViewer from '@/components/SamplePdfViewer';
+import RentalModal from '@/components/RentalModal';
 
 const BookDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
+  const [showSample, setShowSample] = useState(false);
+  const [showRental, setShowRental] = useState(false);
   const { addToCart, isInCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
@@ -155,10 +161,10 @@ const BookDetail: React.FC = () => {
 
               {/* Price */}
               <div className="flex items-baseline gap-3">
-                <span className="text-4xl font-bold text-primary">${book.price.toFixed(2)}</span>
+                <span className="text-4xl font-bold text-primary">{formatPrice(book.price)}</span>
                 {book.originalPrice && (
                   <span className="text-xl text-muted-foreground line-through">
-                    ${book.originalPrice.toFixed(2)}
+                    {formatPrice(book.originalPrice)}
                   </span>
                 )}
               </div>
@@ -215,6 +221,17 @@ const BookDetail: React.FC = () => {
                   <Button
                     size="lg"
                     variant="outline"
+                    className="flex-1 border-primary text-primary hover:bg-primary/5"
+                    onClick={() => setShowSample(true)}
+                  >
+                    <BookOpen className="w-5 h-5 mr-2" />
+                    Read Online
+                  </Button>
+                </div>
+                <div className="flex gap-3">
+                  <Button
+                    size="lg"
+                    variant="outline"
                     onClick={handleWishlistToggle}
                     className={cn(isInWishlist(book.id) && "text-primary border-primary")}
                   >
@@ -233,7 +250,7 @@ const BookDetail: React.FC = () => {
                 <div className="text-center p-4 rounded-lg bg-muted/50">
                   <Truck className="w-6 h-6 mx-auto mb-2 text-primary" />
                   <p className="text-xs font-medium">Free Shipping</p>
-                  <p className="text-xs text-muted-foreground">Orders $35+</p>
+                  <p className="text-xs text-muted-foreground">Orders ₹500+</p>
                 </div>
                 <div className="text-center p-4 rounded-lg bg-muted/50">
                   <Shield className="w-6 h-6 mx-auto mb-2 text-primary" />
@@ -316,6 +333,25 @@ const BookDetail: React.FC = () => {
       </main>
 
       <Footer />
+
+      {book && (
+        <>
+          <SamplePdfViewer
+            book={book}
+            open={showSample}
+            onClose={() => setShowSample(false)}
+            onRent={() => {
+              setShowSample(false);
+              setShowRental(true);
+            }}
+          />
+          <RentalModal
+            book={book}
+            open={showRental}
+            onClose={() => setShowRental(false)}
+          />
+        </>
+      )}
     </div>
   );
 };

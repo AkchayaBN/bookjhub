@@ -199,6 +199,53 @@ export type Database = {
         }
         Relationships: []
       }
+      rentals: {
+        Row: {
+          book_id: string
+          created_at: string
+          duration: string
+          expires_at: string
+          id: string
+          price: number
+          starts_at: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          book_id: string
+          created_at?: string
+          duration: string
+          expires_at: string
+          id?: string
+          price: number
+          starts_at?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          book_id?: string
+          created_at?: string
+          duration?: string
+          expires_at?: string
+          id?: string
+          price?: number
+          starts_at?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rentals_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       wishlists: {
         Row: {
           book_id: string

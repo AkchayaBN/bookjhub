@@ -125,6 +125,9 @@ const Header: React.FC = () => {
                       <Link to="/order-tracking" className="cursor-pointer">My Orders</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
+                      <Link to="/my-rentals" className="cursor-pointer">My Rentals</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
                       <Link to="/wishlist" className="cursor-pointer">Wishlist</Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />

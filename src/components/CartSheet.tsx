@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { useCart } from '@/contexts/CartContext';
+import { formatPrice } from '@/lib/currency';
 
 const CartSheet: React.FC = () => {
   const { items, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
@@ -51,7 +52,7 @@ const CartSheet: React.FC = () => {
                   </h4>
                 </Link>
                 <p className="text-xs text-muted-foreground mt-1">{book.author}</p>
-                <p className="font-semibold text-primary mt-2">${book.price.toFixed(2)}</p>
+                <p className="font-semibold text-primary mt-2">{formatPrice(book.price)}</p>
                 
                 <div className="flex items-center justify-between mt-2">
                   <div className="flex items-center gap-2">
@@ -92,7 +93,7 @@ const CartSheet: React.FC = () => {
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Subtotal</span>
-            <span>${getCartTotal().toFixed(2)}</span>
+            <span>{formatPrice(getCartTotal())}</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Shipping</span>
@@ -101,7 +102,7 @@ const CartSheet: React.FC = () => {
           <Separator />
           <div className="flex justify-between font-semibold text-lg">
             <span>Total</span>
-            <span className="text-primary">${getCartTotal().toFixed(2)}</span>
+            <span className="text-primary">{formatPrice(getCartTotal())}</span>
           </div>
         </div>
 

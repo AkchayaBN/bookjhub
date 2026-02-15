@@ -21,6 +21,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from '@/hooks/use-toast';
+import { formatPrice } from '@/lib/currency';
 
 interface OrderItem {
   id: string;
@@ -213,7 +214,7 @@ const OrderTracking: React.FC = () => {
                           {order.order_items.map((item) => item.book_title).join(', ')}
                         </p>
                       </div>
-                      <p className="text-lg font-semibold">${Number(order.total_amount).toFixed(2)}</p>
+                      <p className="text-lg font-semibold">{formatPrice(Number(order.total_amount))}</p>
                     </div>
                   </CardContent>
                 </Card>
